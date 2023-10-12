@@ -16,7 +16,7 @@ public class App {
   public static void main(String[] args) {
     Faker faker = new Faker();
 
-    Supplier<Product> productSupplier = () -> new Product(1, faker.animal().name(), null, 1);
+    Supplier<Product> productSupplier = () -> new Product(1, faker.animal().name(), null, faker.random().nextDouble() * (100 - 1) + 1);
     Supplier<Customer> customerSupplier = () -> new Customer(1, faker.name().lastName(), 1);
 
     ArrayList<Order> orders = new ArrayList<>();
@@ -33,5 +33,22 @@ public class App {
     Map<Customer, List<Order>> ordersForCustomer = orders.stream().collect(Collectors.groupingBy(Order::getCustomer));
     ordersForCustomer.forEach((customer, ordersList) -> System.out.println("Customer: " + customer + " " + ordersList));
 
+    Map<Customer, Double> totalForCustomer = orders.stream().collect(Collectors.groupingBy(Order::getCustomer, ));
+
+    ArrayList<Product> products = new ArrayList<>();
+
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+    products.add(productSupplier.get());
+
+
+
+//    Order priciestOrder = users.stream().sorted(Comparator.comparing(User::getName, Comparator.reverseOrder()))
+//            .peek(user -> System.out.println("PEEK: " + user)).skip(5).limit(10).toList();
   }
 }
